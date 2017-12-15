@@ -49,7 +49,6 @@ class UserController extends Controller
     }
 
     public function postAddUser(){
-
         $rules = array(
             'name' => 'required|max:255',
             'surname' => 'required|max:255',

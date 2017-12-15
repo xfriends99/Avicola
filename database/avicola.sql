@@ -34,11 +34,11 @@ CREATE TABLE `roles` (
 -- Dumping data for table `roles`
 --
 
-LOCK TABLES `roles` WRITE;
+
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` VALUES (1,'Administrador');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `users`
@@ -70,11 +70,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'Avicola','Admin','avatar-default.png','admin@example.com','$2y$10$h66RUOWkTmGFiisiRSUYm.rGr5VytyGR4iEVEoAtzuTZuqEztYz9q','VaY9qdTRj0VSxop9TkxFyCiGNuwW3neevxpvBriqjCoVCt5xqBRrdsjyoNbW','2017-09-09 20:42:38','2017-12-06 10:52:42',1,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

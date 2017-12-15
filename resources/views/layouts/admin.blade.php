@@ -4,11 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ITWarp Consulting</title>
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <link rel="stylesheet" href="{{ asset('adminlte/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datepicker/datepicker3.css') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
@@ -22,6 +24,23 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 2.2.3 -->
+<script src="/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="/adminlte/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/adminlte/js/app.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="/adminlte/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<!-- <script src="/adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="/adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="/adminlte/plugins/input-mask/jquery.inputmask.numeric.extensions.js"></script>
+<script src="/adminlte/plugins/input-mask/jquery.inputmask.regex.extensions.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script> -->
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -136,6 +155,9 @@
             @if (!Auth::guest())
 
                     <li class="{{ (Request::is('users*') || Request::is('adduser*') || Request::is('editUser*') || Request::is('deleteUser*') || Request::is('profile*')) ? 'active open' : ''  }}"><a href="{{ url('/users') }}"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
+                     <li class=""><a href="{{ url('/services') }}"><i class="fa fa-link"></i> <span>Servicios</span></a></li>
+                     <li class=""><a href="{{ url('/buy') }}"><i class="fa fa-link"></i> <span>Compras</span></a></li>
+                     <li class=""><a href="{{ url('/sales') }}"><i class="fa fa-link"></i> <span>Ventas</span></a></li>
 
                 @endif
                 <!--
@@ -193,15 +215,32 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 2.2.3 -->
-<script src="/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="/adminlte/bootstrap/js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/adminlte/js/app.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+jQuery.extend(jQuery.validator.messages, {
+  required: "Este campo es obligatorio.",
+  remote: "Por favor, rellena este campo.",
+  email: "Por favor, escribe una dirección de correo válida",
+  url: "Por favor, escribe una URL válida.",
+  date: "Por favor, escribe una fecha válida.",
+  dateISO: "Por favor, escribe una fecha (ISO) válida.",
+  number: "Por favor, escribe un número entero válido.",
+  digits: "Por favor, escribe sólo dígitos.",
+  creditcard: "Por favor, escribe un número de tarjeta válido.",
+  equalTo: "Por favor, escribe el mismo valor de nuevo.",
+  accept: "Por favor, escribe un valor con una extensión aceptada.",
+  maxlength: jQuery.validator.format("Por favor, no escribas más de {0} caracteres."),
+  minlength: jQuery.validator.format("Por favor, no escribas menos de {0} caracteres."),
+  rangelength: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1} caracteres."),
+  range: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1}."),
+  max: jQuery.validator.format("Por favor, escribe un valor menor o igual a {0}."),
+  min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}.")
+});
+});
 
+
+</script>
 @yield('scripts')
 
 </body>
