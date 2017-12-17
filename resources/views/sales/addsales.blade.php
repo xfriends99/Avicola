@@ -207,14 +207,14 @@
 $(document).ready(function(){
 
 $('.change_price').click(function(){
- $( "#Form").validate({
-  rules: {
-    select-service: {
-      required: true
+//  $( "#Form").validate({
+//   rules: {
+//     select-service: {
+//       required: true
 
-    }
-  }
-});
+//     }
+//   }
+// });
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -238,7 +238,6 @@ $('.change_price').click(function(){
 });
 
 $('.save-service').click(function(){
-        console.log($('.id-service').val());
            $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

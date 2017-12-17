@@ -115,7 +115,7 @@
                             <label for="name" class="col-md-4 control-label">Servicio </label>
 
                             <div class="col-md-6">
-                                <select   class="form-control" name="services" >
+                                <select   class="form-control select-service" name="services" >
                                             <option value="">Seleccione</option>
                                             @foreach($services as $s)
                                             <option value="{{$s->id}}" @if($data->service == $s->id) selected @endif>{{$s->name}}</option>
@@ -127,8 +127,9 @@
                                     </span>
                                 @endif
                             </div>
-<a href= "/addsales"   class="btn btn-success" data-toggle="modal" >Cambiar precio</a>
-
+                            <button type="button" class="btn btn-success change_price"  data-target="#modal-default">
+    Cambiar precio
+              </button>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Estatus </label>
@@ -183,24 +184,28 @@
                 </div>
             </div>
         </div>
-<!--     <div class="modal fade in" id="modal-default" style="display: block; padding-right: 15px;">
+    <div class="modal fade in" id="modal-service" style=" padding-right: 15px;">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Default Modal</h4>
+                <h4 class="modal-title">Servicio <span class="name-service"></span></h4>
               </div>
               <div class="modal-body">
-                <p>One fine body…</p>
+                     <!-- <div class="col-md-12"> -->
+                                <input  type="text" class="form-control price priceservice" required name="priceservice" placeholder=""  >
+                                 <input  type="hidden" class="form-control id-service" name="pre"  >
+                               
+                            <!-- </div> -->
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary save-service">Editar</button>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
     </div>
 </div>
 
@@ -211,7 +216,60 @@ $(document).ready(function(){
 $("#Form").validate();
 $('#date_credit').datepicker()
 
+$('.change_price').click(function(){
+//  $( "#Form").validate({
+//   rules: {
+//     select-service: {
+//       required: true
 
+//     }
+//   }
+// });
+console.log('dddd');
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+            url:'/apiservice/'+$('.select-service').val(),
+            method:'get',
+            success: function(data){      
+                console.log(data);  
+                $('.priceservice').val(data.price);
+                $('.name-service').html(data.name);
+                $('.id-service').val(data.id);
+            },
+            error:function(error){
+              console.log(error);
+              // alert("ERROR, ACTUALICE LA PAGINA");
+            }
+          });
+    $('#modal-service').modal({
+                        show : true
+                    });
+});
+
+$('.save-service').click(function(){
+        console.log($('.id-service').val());
+           $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+            url:'/apiservice',
+            data:{'price': $('.priceservice').val(), 'id': $('.id-service').val()},
+            method:'post',
+            success: function(data){      
+                console.log(data);  
+                $('#modal-service').modal('hide');
+                // $('.priceservice').val(data.price);
+                // $('.name-service').html(data.name);
+            },
+            error:function(error){
+              console.log(error);
+              // alert("ERROR, ACTUALICE LA PAGINA");
+            }
+          });
+
+});
     $(".price").inputmask("decimal",{
         integerDigits:5,
         digits:2,
