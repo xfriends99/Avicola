@@ -10,9 +10,9 @@
                 </div>
           <form action="/services/search" method="get" class="sidebar-form">
         <div class="input-group">
-          <input type="text" name="search" class="form-control" placeholder="Buscar">
+          <input type="text" name="search" class="form-control" placeholder="Buscar" style="    background-color: white;">
               <span class="input-group-btn">
-                <button type="submit" name="Buscar" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                <button type="submit" name="Buscar" id="search-btn" class="btn btn-flat" style="    background-color: white;"><i class="fa fa-search"></i>
                 </button>
               </span>
         </div>
@@ -31,7 +31,7 @@
                                 <th>Precio</th>
                                 <th>Tipo de Calculo</th>
                                 <th>Fecha</th>
-                                <th></th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,7 +39,7 @@
                             <tr>
                                 <td>{{ $d->code  }}</td>
                                 <td>{{ $d->name  }}</td>
-                                <td>{{ $d->price }}</td>
+                                <td><?php echo number_format($d->price, 2, ',', '.') ?></td>
                                 <td>{{ $d->type_calculation }}</td>
                                 <td>{{ date('d-m-Y', strtotime($d->created_at))}}</td>
                                 <td><a href= "{{url('service/'.$d->id)}}" class="btn btn-info" >Editar</a>&nbsp;&nbsp;

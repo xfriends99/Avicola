@@ -15,8 +15,8 @@
                             <label for="name" class="col-md-4 control-label">Codigo</label>
                           
                             <div class="col-md-6">
-                                <input id="name" type="text" disabled class="form-control" value="@if($data) {{$data->id + 1}} @else 1 @endif"  >
-                                <input type="hidden" name="code" value="@if($data) {{$data->id + 1}} @else 1 @endif">
+                                <input id="name" type="text" disabled class="form-control" value="@if($data)<?php echo str_pad($data->id +1, 8, "0", STR_PAD_LEFT);?>@else 1 @endif"  >
+                                <input type="hidden" name="code" value="@if($data)<?php echo str_pad($data->id +1, 8, "0", STR_PAD_LEFT);?>@else 1 @endif">
                                 @if ($errors->has('code'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('code') }}</strong>
@@ -92,8 +92,8 @@
                             <div class="col-md-6">
                                 <select   class="form-control" name="type_price" required>
                                             <option value="">Seleccione</option>
-                                            <option value="Libra">Libra</option>
-                                            <option value="Pollo">Pollo</option>
+                                            <option value="peso">Peso</option>
+                                            <option value="unidad">Por unidad</option>
                                             
                                 </select>
 
@@ -141,7 +141,9 @@
 $(document).ready(function(){
 
 $("#Form").validate();
-$('#date_credit').datepicker()
+$('#date_credit').datepicker({
+    startDate: 'Default'
+});
 
 
     $(".price").inputmask("decimal",{

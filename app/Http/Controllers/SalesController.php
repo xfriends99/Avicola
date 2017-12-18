@@ -84,7 +84,7 @@ class SalesController extends Controller
 
     public function searchSales(Request $request)
     {
-        $data = Sales::where('code', 'like', "%$request->search%")->paginate(15);
+        $data = Sales::where('code', 'like', "%$request->search%")->orWhere('type_product', 'like', "%$request->search%")->paginate(15);
         return view('sales.list_all')->with('data',$data);
     }
     /**
@@ -175,5 +175,22 @@ class SalesController extends Controller
             Session::flash('message', 'Servicio editado correctamente!!');
             return Redirect::to('buy');
         }
+    }
+
+    public function UpdateMermaSales(Request $request)
+    {
+        $sales = Sales::find($request->id);
+        $sales->merma_weight = $request->merma;
+        $sales->save();
+        return "Venta Modificada";        
+    } 
+    public function UpdateDeadSales(Request $request)
+    {
+        $sales = Sales::find($request->id);
+        // return $request->pricezoo;
+        $sales->price_buy_zoo = $request->pricezoo;
+        $sales->quantity_dead = $request->quantity;
+        $sales->save();
+        return "Venta Modificada";        
     }
 }

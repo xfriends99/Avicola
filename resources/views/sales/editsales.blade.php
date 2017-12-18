@@ -164,7 +164,7 @@
                                   <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                   </div>
-                                  <input type="text" class="form-control pull-right" id="date_credit" name="date_credit" value="{{ date('d-m-Y', strtotime($data->date_credit))}}">
+                                  <input type="text" class="form-control pull-right" id="date_credit" name="date_credit" value="{{ date('d-m-Y', strtotime($data->date_credit))}}" @if($data->status_payment==1) disabled @endif>
                                 </div>
                             </div>
                         </div>
@@ -214,8 +214,15 @@
 $(document).ready(function(){
 
 $("#Form").validate();
-$('#date_credit').datepicker()
-
+$('#date_credit').datepicker();
+$('.select-service').change(function(){
+    if($(this).val()!=''){
+        console.log($(this).val());
+        $('.change_price').show();
+    }else{
+        $('.change_price').hide();
+    }
+});
 $('.change_price').click(function(){
 //  $( "#Form").validate({
 //   rules: {
@@ -225,7 +232,6 @@ $('.change_price').click(function(){
 //     }
 //   }
 // });
-console.log('dddd');
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

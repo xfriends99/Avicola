@@ -19,7 +19,11 @@
     <link rel="stylesheet" href="{{ asset('adminlte/css/AdminLTE.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('adminlte/css/skins/skin-blue.min.css') }}">
-
+<style type="text/css"> 
+label.error {
+    color: red;
+}
+</style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -34,6 +38,7 @@
 <script src="/adminlte/js/app.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<!-- <script src="/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script> -->
 <script src="/adminlte/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 <!-- <script src="/adminlte/plugins/input-mask/jquery.inputmask.js"></script>

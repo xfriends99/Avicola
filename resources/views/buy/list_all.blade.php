@@ -10,9 +10,9 @@
                 </div>
           <form action="/buy/search" method="get" class="sidebar-form">
         <div class="input-group">
-          <input type="text" name="search" class="form-control" placeholder="Buscar">
+          <input type="text" name="search" class="form-control" placeholder="Buscar" style="    background-color: white;">
               <span class="input-group-btn">
-                <button type="submit" name="Buscar" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                <button type="submit" name="Buscar" id="search-btn" class="btn btn-flat" style="    background-color: white;"><i class="fa fa-search"></i>
                 </button>
               </span>
         </div>
@@ -32,8 +32,8 @@
                                 <th>Precio</th>
                                 <th>Fecha</th>
                                 <th>Fecha de Credito</th>
-                                <th>Pagada</th>
                                 <th></th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,10 +42,12 @@
                                 <td>{{ $d->code  }}</td>
                                 <td>{{ $d->type_product  }}</td>
                                 <td>{{ $d->quantity }}</td>
-                                <td>{{ $d->price_total }}</td>
+                                <td><?php echo number_format($d->price_total, 2, ',', '.') ?></td>
                                 <td>{{ date('d-m-Y', strtotime($d->created_at))}}</td>
                                 <td>{{ date('d-m-Y', strtotime($d->date_credit))}}</td>
-                                <td><input type="checkbox" name="status" class="status" data-id="{{$d->id}}" @if($d->status_pay==1) checked @endif></td>
+                                <td><a  class="btn btn-success status" data-id="{{$d->id}}"  @if($d->status_pay==1) style="display:none;" @endif >Pagada</a>
+
+                                    <!-- <input type="checkbox" name="status" class="status" data-id="{{$d->id}}" @if($d->status_pay==1) checked @endif></td> -->
                                 <td><a href= "{{url('buy/'.$d->id)}}" class="btn btn-info" >Editar</a>&nbsp;&nbsp;
                                 <a  data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a> </td>
                             </tr>
@@ -76,8 +78,10 @@
                      },
                     url:'/updateStatusBuy',
                     method:'POST',
-                    data:{id:thiss.attr('data-id'), status: ($(this).is(':checked'))?'1':'0'},
-                    success: function(data){        
+                    data:{id:thiss.attr('data-id'), status: 1},
+                    // data:{id:thiss.attr('data-id'), status: ($(this).is(':checked'))?'1':'0'},
+                    success: function(data){   
+                        location.reload();  
                         (thiss.is(':checked'))?thiss.prop('true'):thiss.prop('false');
                     },
                     error:function(error){

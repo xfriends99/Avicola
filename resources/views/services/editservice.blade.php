@@ -15,8 +15,8 @@
                             <label for="name" class="col-md-4 control-label">Codigo</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" disabled class="form-control" value="{{$data->id}}"  autofocus>
-                                <input type="hidden" name="code" value="{{$data->id}}">
+                                <input id="name" type="text" disabled class="form-control" value="{{$data->code}}"  autofocus>
+                                <input type="hidden" name="code" value="{{$data->code}}">
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -96,16 +96,15 @@ $(document).ready(function(){
 
 $("#Form").validate();
 
-    // $(".price").inputmask({
-    //     alias:"decimal",
-    //     integerDigits:5,
-    //     digits:2,
-    //     allowMinus:false,        
-    //     digitsOptional: false,
-    //     placeholder: "0"
-    // });
+    $(".price").inputmask("decimal",{
+        integerDigits:5,
+        digits:2,
+        allowMinus:false,        
+        digitsOptional: false,
+        placeholder: "0",
+        rightAlign: false,
+    });
 
-   $(".price").inputmask('decimal', { digits: 2});
     
 });
 </script>

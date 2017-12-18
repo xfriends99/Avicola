@@ -15,8 +15,9 @@
                             <label for="name" class="col-md-4 control-label">Codigo</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" disabled class="form-control" value="@if($data) {{$data->id + 1}} @else 1 @endif"  autofocus>
-                                <input type="hidden" name="code" value="@if($data) {{$data->id + 1}} @else 1 @endif">
+                                <input id="" type="text" disabled class="form-control" value="@if($data)<?php echo str_pad($data->id +1, 8, "0", STR_PAD_LEFT);?>@else 1 @endif"  autofocus>
+
+                                <input type="hidden" name="code" value="@if($data)<?php echo str_pad($data->id +1, 8, "0", STR_PAD_LEFT);    ?>@else 1 @endif">
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>

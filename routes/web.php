@@ -52,6 +52,11 @@ Route::post('/updateStatusSales', 'SalesController@postUpdateStatus');
 Route::get('/addsales', 'SalesController@getAddSales');
 Route::post('/addsales', 'SalesController@postAddSales');
 Route::get('/deleteSales/{id}', 'SalesController@deleteSales');
+Route::post('/updateMermaSales', 'SalesController@UpdateMermaSales');
+Route::post('/updateDeadSales', 'SalesController@UpdateDeadSales');
+
+
+
 
 Route::get('/apiservice/{id}', 'ServicesController@getEditServiceapi');
 Route::post('/apiservice', 'ServicesController@postEditServiceapi');

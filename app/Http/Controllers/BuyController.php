@@ -59,7 +59,6 @@ class BuyController extends Controller
         } else {
         	// return  date('Y-m-d', strtotime($request->date_credit));
             $buy = new Buy;
-
             $buy->code = $request->code;
             $buy->type_product = $request->type_product;
             $buy->type_price = $request->type_price;
@@ -67,7 +66,7 @@ class BuyController extends Controller
             $buy->quantity_weight = $request->quantity_weight;
             $buy->price_unity = $request->price_unity;
             $buy->price_total = $request->quantity * $request->price_unity;
-            $buy->date_credit =date('Y-m-d', strtotime($request->date_credit));
+            $buy->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $buy->status_pay = 0;
 
             if($buy->save()){
@@ -80,7 +79,7 @@ class BuyController extends Controller
 
     public function searchBuy(Request $request)
     {
-        $data = Buy::where('code', 'like', "%$request->search%")->paginate(15);
+        $data = Buy::where('code', 'like', "%$request->search%")->orWhere('type_product', 'like', "%$request->search%")->paginate(15);
         return view('buy.list_all')->with('data',$data);
     }
     /**

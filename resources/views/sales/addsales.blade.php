@@ -118,12 +118,12 @@
                                     </span>
                                 @endif
                             </div>
-                            <button type="button" class="btn btn-success change_price"  data-target="#modal-default">
+                            <button type="button" class="btn btn-success change_price"  style="display: none" data-target="#modal-default">
                 Cambiar precio
               </button>
 
                         </div>
-                        <div class="form-group">
+          <!--               <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Estatus </label>
 
                             <div class="col-md-6">
@@ -144,7 +144,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
 
 
                         
@@ -206,15 +206,15 @@
 <script>
 $(document).ready(function(){
 
-$('.change_price').click(function(){
-//  $( "#Form").validate({
-//   rules: {
-//     select-service: {
-//       required: true
+$('.select-service').change(function(){
+    if($(this).val()!=''){
+        $('.change_price').show();
+    }else{
+        $('.change_price').hide();
+    }
+});
 
-//     }
-//   }
-// });
+$('.change_price').click(function(){
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -259,7 +259,10 @@ $('.save-service').click(function(){
 
 });
 $("#Form").validate();
-$('#date_credit').datepicker()
+$('#date_credit').datepicker({
+    startDate: 'Default'
+});
+
 
 
     $(".price").inputmask("decimal",{
@@ -272,13 +275,13 @@ $('#date_credit').datepicker()
     });
 
    // $(".price").inputmask('decimal', { digits: 2});
-    $(".type_product").change(function(){
-        if($(this).val()=="pollo en pie"){
-            $('.hide_chiken_pie').show();
-        }else{
-            $('.hide_chiken_pie').hide();
-        }
-    });
+    // $(".type_product").change(function(){
+    //     if($(this).val()=="pollo en pie"){
+    //         $('.hide_chiken_pie').show();
+    //     }else{
+    //         $('.hide_chiken_pie').hide();
+    //     }
+    // });
 });
 </script>
 @endsection

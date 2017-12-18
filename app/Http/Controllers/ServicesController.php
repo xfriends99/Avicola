@@ -159,7 +159,7 @@ class ServicesController extends Controller
     {
         $serice = Services::find($request->id);
         if($serice->delete()){
-            Session::flash('message', 'Servicio editado correctamente!!');
+            Session::flash('message', 'Servicio eliminado correctamente!!');
             return Redirect::to('services');
         }
     }

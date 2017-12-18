@@ -15,8 +15,8 @@
                             <label for="name" class="col-md-4 control-label">Codigo</label>
                           
                             <div class="col-md-6">
-                                <input id="name" type="text" disabled class="form-control" value="{{$data->id }}"  >
-                                <input type="hidden" name="code" value=" {{$data->id }}">
+                                <input id="name" type="text" disabled class="form-control" value="{{$data->code }}"  >
+                                <input type="hidden" name="code" value=" {{$data->code }}">
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 @if ($errors->has('code'))
                                     <span class="help-block">
@@ -94,8 +94,8 @@
                             <div class="col-md-6">
                                 <select   class="form-control" name="type_price" required>
                                             <option value="">Seleccione</option>
-                                            <option value="Libra" @if($data->type_price== 'Libra') selected @endif>Libra</option>
-                                            <option value="Pollo" @if($data->type_price== 'Pollo') selected @endif>Pollo</option>
+                                            <option value="peso" @if($data->type_price== 'peso') selected @endif>Peso</option>
+                                            <option value="unidad" @if($data->type_price== 'unidad') selected @endif>Por unidad</option>
                                             
                                 </select>
 
@@ -117,7 +117,7 @@
                                   <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                   </div>
-                                  <input type="text" class="form-control pull-right" id="date_credit" name="date_credit" value="{{ date('d-m-Y', strtotime($data->date_credit))}}">
+                                  <input type="text" class="form-control pull-right" id="date_credit" @if($data->status_pay==1) disabled @endif name="date_credit" value="{{ date('d-m-Y', strtotime($data->date_credit))}}">
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,10 @@
 $(document).ready(function(){
 
 $("#Form").validate();
-$('#date_credit').datepicker()
+$('#date_credit').datepicker({
+    startDate: 'Default'
+});
+
 
 
     $(".price").inputmask("decimal",{
