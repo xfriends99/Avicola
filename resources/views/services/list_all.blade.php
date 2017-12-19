@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
+<div >
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Servicios
                     <a href= "/addservice"  style="margin-top:-7px; float:right;" class="btn btn-success" >Nuevo Servicio</a>
