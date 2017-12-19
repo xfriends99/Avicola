@@ -18,7 +18,7 @@ class BuyController extends Controller
      */
     public function index()
     {
-        $data = Buy::paginate(15);
+        $data = Buy::orderBY('created_at','desc')->paginate(15);
         return view('buy.list_all')->with('data',$data);
     }
 
@@ -128,7 +128,7 @@ class BuyController extends Controller
             $buy->quantity_weight = $request->quantity_weight;
             $buy->price_unity = $request->price_unity;
             $buy->price_total = $request->quantity * $request->price_unity;
-            $buy->date_credit =date('Y-m-d', strtotime($request->date_credit));
+            $buy->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $buy->status_pay = 0;
 
             if($buy->save()){

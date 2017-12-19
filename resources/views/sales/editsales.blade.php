@@ -15,8 +15,8 @@
                             <label for="name" class="col-md-4 control-label">Codigo</label>
                           
                             <div class="col-md-6">
-                                <input id="name" type="text" disabled class="form-control" value=" {{$data->id }} "  >
-                                <input type="hidden" name="code" value="{{$data->id }} ">
+                                <input id="name" type="text" disabled class="form-control" value="<?php echo str_pad($data->id, 8, "0", STR_PAD_LEFT);?>"  >
+                                <input type="hidden" name="code" value="<?php echo str_pad($data->id, 8, "0", STR_PAD_LEFT);?>">
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 @if ($errors->has('code'))
                                     <span class="help-block">
@@ -47,39 +47,29 @@
                         </div>
 
                         <div style="display: none" class="hide_chiken_pie">
-               <!--              <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Peso</label>
-
-                                <div class="col-md-6">
-                                    <input  type="text" class="form-control" required name="weight" value="{{$data->merma_weight}}"   >
-
-                                </div>
-                            </div> -->
                             <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Merma</label>
+                                <label for="name" class="col-md-4 control-label">Peso por libra</label>
 
                                 <div class="col-md-6">
-                                    <input  type="text" class="form-control" required name="merma_weight" value="{{$data->merma_weight}}"   >
+                                    <input  type="text" class="form-control" required name="pound_weight"  value="{{$data->pound_weight}}"  >
 
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Cantidad pollo muertos</label>
+                         <div class="form-group">
+                            <label for="name" class="col-md-4 control-label">Tipo de precio </label>
 
-                                <div class="col-md-6">
-                                    <input  type="number" class="form-control " required name="quantity_dead" value="{{$data->quantity_dead}}"  >
-                                </div>
-                            </div>
+                            <div class="col-md-6">
+                                <select   class="form-control" name="type_price" required>
+                                            <option value="">Seleccione</option>
+                                            <option value="peso" @if($data->type_price=='peso') selected @endif>Peso</option>
+                                            <option value="unidad" @if($data->type_price=='unidad') selected @endif>Por unidad</option>
+                                            
+                                </select>
 
-                            <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Precio de Pollo Zoologico</label>
-
-                                <div class="col-md-6">
-                                    <input  type="text" class="form-control price" required name="price_buy_zoo"  value="{{$data->price_buy_zoo}}"  >
-                                </div>
                             </div>
                         </div>
+                    </div>
 
 
                         <div class="form-group">
@@ -132,14 +122,14 @@
               </button>
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label">Estatus </label>
+                            <label for="name" class="col-md-4 control-label">Estatus {{$data->status}} </label>
 
                             <div class="col-md-6">
                                 <select   class="form-control" name="status" required>
                                             <option value="">Seleccione</option>
-                                            <option value="en pie" @if($data->status == 'en pie') selected @endif>En pie</option>
+                                            <!-- <option value="en pie" @if($data->status == 'en pie') selected @endif>En pie</option> -->
                                             <option value="en proceso" @if($data->status == 'en proceso') selected @endif>En proceso</option>
-                                            <option value="entregado" @if($data->status == 'entregado') selected @endif>Entregado</option>
+                                            @if($data->type_product == 'pollo en pie' ) <option value="entregado" @if($data->status == 'entregado') selected @endif>Entregado</option> @endif
                                             <option value="falta de pago" @if($data->status == 'falta de pago') selected @endif>Falta de pago</option>
                                             @if(Auth::user()->rol->id==1)
                                             <option value="cerrada" @if($data->status == 'cerrada') selected @endif>Cerrada</option>
@@ -157,14 +147,14 @@
 
                         
                         <div class="form-group{{ $errors->has('roles_id') ? ' has-error' : '' }}">
-                            <label for="roles_id" class="col-md-4 control-label">Fecha de Credito</label>
+                            <label for="roles_id" class="col-md-4 control-label">Fecha de Credito {{$data->date_credit}}</label>
 
                             <div class="col-md-6">
                                <div class="input-group date">
                                   <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                   </div>
-                                  <input type="text" class="form-control pull-right" id="date_credit" name="date_credit" value="{{ date('d-m-Y', strtotime($data->date_credit))}}" @if($data->status_payment==1) disabled @endif>
+                                  <input type="text" class="form-control pull-right" id="date_credit" name="date_credit" value="@if($data->date_credit){{ date('d-m-Y', strtotime($data->date_credit))}} @endif" @if($data->status_payment==1) disabled @endif>
                                 </div>
                             </div>
                         </div>
@@ -286,6 +276,9 @@ $('.save-service').click(function(){
     });
 
    // $(".price").inputmask('decimal', { digits: 2});
+     if($('.type_product').val()=="pollo en pie"){
+            $('.hide_chiken_pie').show();
+        }
     $(".type_product").change(function(){
         if($(this).val()=="pollo en pie"){
             $('.hide_chiken_pie').show();

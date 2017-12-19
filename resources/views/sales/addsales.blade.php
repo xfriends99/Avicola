@@ -15,8 +15,8 @@
                             <label for="name" class="col-md-4 control-label">Codigo</label>
                           
                             <div class="col-md-6">
-                                <input id="name" type="text" disabled class="form-control" value="@if($data) {{$data->id + 1}} @else 1 @endif"  >
-                                <input type="hidden" name="code" value="@if($data) {{$data->id + 1}} @else 1 @endif">
+                                <input id="name" type="text" disabled class="form-control" value="@if($data)<?php echo str_pad($data->id+1, 8, "0", STR_PAD_LEFT);?>@else 1 @endif"  >
+                                <input type="hidden" name="code" value="@if($data)<?php echo str_pad($data->id+1, 8, "0", STR_PAD_LEFT);?>@else 1 @endif">
                                 @if ($errors->has('code'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('code') }}</strong>
@@ -47,29 +47,28 @@
 
                         <div style="display: none" class="hide_chiken_pie">
                             <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Merma</label>
+                                <label for="name" class="col-md-4 control-label">Peso por libra</label>
 
                                 <div class="col-md-6">
-                                    <input  type="text" class="form-control" required name="merma_weight"   >
+                                    <input  type="text" class="form-control" required name="pound_weight"   >
 
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Cantidad pollo muertos</label>
+                         <div class="form-group">
+                            <label for="name" class="col-md-4 control-label">Tipo de precio </label>
 
-                                <div class="col-md-6">
-                                    <input  type="number" class="form-control " required name="quantity_dead"   >
-                                </div>
+                            <div class="col-md-6">
+                                <select   class="form-control" name="type_price" required>
+                                            <option value="">Seleccione</option>
+                                            <option value="peso">Peso</option>
+                                            <option value="unidad">Por unidad</option>
+                                            
+                                </select>
+
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Precio de Pollo Zoologico</label>
-
-                                <div class="col-md-6">
-                                    <input  type="text" class="form-control price" required name="price_buy_zoo"   >
-                                </div>
-                            </div>
                         </div>
 
 
@@ -275,13 +274,13 @@ $('#date_credit').datepicker({
     });
 
    // $(".price").inputmask('decimal', { digits: 2});
-    // $(".type_product").change(function(){
-    //     if($(this).val()=="pollo en pie"){
-    //         $('.hide_chiken_pie').show();
-    //     }else{
-    //         $('.hide_chiken_pie').hide();
-    //     }
-    // });
+    $(".type_product").change(function(){
+        if($(this).val()=="pollo en pie"){
+            $('.hide_chiken_pie').show();
+        }else{
+            $('.hide_chiken_pie').hide();
+        }
+    });
 });
 </script>
 @endsection

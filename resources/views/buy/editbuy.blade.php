@@ -117,7 +117,7 @@
                                   <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                   </div>
-                                  <input type="text" class="form-control pull-right" id="date_credit" @if($data->status_pay==1) disabled @endif name="date_credit" value="{{ date('d-m-Y', strtotime($data->date_credit))}}">
+                                  <input type="text" class="form-control pull-right" id="date_credit" @if($data->status_pay==1) disabled @endif name="date_credit" value="@if($data->date_credit){{ date('d-m-Y', strtotime($data->date_credit))}} @endif"">
                                 </div>
                             </div>
                         </div>

@@ -19,8 +19,14 @@
                 </form>
                 <div class="panel-body">
                     @if (Session::has('message'))
-                    <div class="alert alert-info">{{ Session::get('message') }}</div>
+                    <div class="alert alert-info">{{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
                     @endif
+                    <div class="alert alert-info alertjavascript" style="display: none;"><span class="message"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+
 
                     <table class="table table-hover">
                         <thead>
@@ -41,16 +47,16 @@
                                 <td>{{ $d->code  }}</td>
                                 <td>{{ $d->type_product  }}</td>
                                 <td>{{ $d->quantity }}</td>
-                                <td>{{ $d->price_total }}</td>
+                                <td><?php echo number_format($d->price_total, 2, ',', '.') ?></td>
                                 <td>{{ date('d-m-Y', strtotime($d->created_at))}}</td>
                                 <td>{{ date('d-m-Y', strtotime($d->date_credit))}}</td>
-                                <td><a  class="btn btn-success status" data-id="{{$d->id}}"  @if($d->status_payment==1) style="display:none;" @endif >Pagada</a>
+                                <td>@if($d->status == 'falta de pago') <a class="btn btn-success status" data-id="{{$d->id}}"  @if($d->status_payment==1) style="display:none;" @endif >Pagada</a> @endif
                                     <!-- <input type="checkbox" name="status" class="status" data-id="{{$d->id}}" @if($d->status_payment==1) checked @endif> -->
                                 </td>
                                 <td>
                                     @if($d->type_product== 'pollo en pie')  <a class="btn btn-info merma" id-sale="{{ $d->id  }}" >Merma</a>&nbsp;&nbsp; @endif
-                                    @if($d->type_product== 'pollo en pie')<a class="btn btn-info dead" id-sale="{{ $d->id  }}" >cargar</a>&nbsp;&nbsp; @endif
-                                    <a href= "{{url('sales/'.$d->id)}}" class="btn btn-info" >Editar</a>&nbsp;&nbsp;
+                                    @if($d->type_product== 'pollo en pie')<a class="btn btn-info dead" id-sale="{{ $d->id  }}" >Cargar pollos muertos</a>&nbsp;&nbsp; @endif
+                                    @if($d->status != 'falta de pago')<a href= "{{url('sales/'.$d->id)}}" class="btn btn-info editar" >Editar</a>&nbsp;&nbsp; @endif
                                     <a data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a> 
                                 </td>
                             </tr>
@@ -70,19 +76,19 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Merma <span class="name-service"></span></h4>
+                <h4 class="modal-title">Ingrese el peso total real al entregar el producto <span class="name-service"></span></h4>
               </div>
               <div class="modal-body">
                      <!-- <div class="col-md-12"> -->
-                    <input  type="text" class="form-control mermaa"  placeholder="Merma" required name="priceservice" 
-                                placeholder=""  >
+                    <input  type="text" class="form-control mermaa"  required name="priceservice" 
+                                placeholder="Peso en libras"  >
                     <input  type="hidden" class="form-control id-sales" name="pre"  >
                                
                             <!-- </div> -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary save-merma">Guardar</button>
+                <button type="button" class="btn btn-warning save-merma">Guardar</button>
               </div>
             </div>
           </div>
@@ -94,19 +100,19 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Mermadddd <span class="name-service"></span></h4>
+                <h4 class="modal-title">Pollos muertos y ventas al zoologico <span class="name-service"></span></h4>
               </div>
               <div class="modal-body">
                      <!-- <div class="col-md-12"> -->
                     <input  type="number" class="form-control quantity"  placeholder="Catidad de pollos muertos" required name="priceservice"              placeholder=""  ><br>
-                    <input  type="text" class="form-control pricezoo price"  placeholder="Precio de venta" required name="priceservice"              placeholder=""  >
+                    <input  type="text" class="form-control pricezoo price"  placeholder="Precio de venta por unidad" required name="priceservice"              placeholder=""  >
                     <input  type="hidden" class="form-control id-sales2" name="pre"  >
                                
                             <!-- </div> -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary save-dead">Guardar</button>
+                <button type="button" class="btn btn-warning save-dead">Guardar</button>
               </div>
             </div>
           </div>
@@ -122,6 +128,8 @@
             });
         $('.status').click(function(){
                  thiss = $(this);
+            if(confirm("¿Al marcar la venta como pagada se vera reflejado en sus cuentas por pagar?")){
+  
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -130,7 +138,11 @@
                     method:'POST',
                     data:{id:thiss.attr('data-id'), status:1 },
                     success: function(data){      
-                        location.reload();  
+                        // location.reload();  
+                        $('.alertjavascript').show();
+                        $('.message').html('Venta marcada como pagada satisfactoriamente');
+                        thiss.hide();
+                        thiss.siblings('.siblings');
                         (thiss.is(':checked'))?thiss.prop('true'):thiss.prop('false');
                     },
                     error:function(error){
@@ -138,7 +150,7 @@
                       // alert("ERROR, ACTUALICE LA PAGINA");
                     }
                   });
-            // }
+            }
         });
 
         $('.merma').click(function(){

@@ -19,7 +19,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $data = Sales::paginate(15);
+        $data = Sales::orderBy('created_at','desc')->paginate(15);
         return view('sales.list_all')->with('data',$data);
     }
 
@@ -58,7 +58,7 @@ class SalesController extends Controller
             ->withErrors($validator)
             ->withInput();
         } else {
-        	// return  date('Y-m-d', strtotime($request->date_credit));
+
             $sales = new Sales;
 
             $sales->code = $request->code;
@@ -66,13 +66,16 @@ class SalesController extends Controller
             $sales->quantity = $request->quantity;
             $sales->price_unity = $request->price_unity;
             $sales->price_total = $request->quantity * $request->price_unity;
-            $sales->date_credit =date('Y-m-d', strtotime($request->date_credit));
+            $sales->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $sales->status_payment = 0;
             $sales->service =$request->services;
-            $sales->status = $request->status;
+            $sales->status = 'en proceso';
             $sales->price_buy_zoo = $request->price_buy_zoo;
             $sales->merma_weight = $request->merma_weight;
             $sales->quantity_dead = $request->quantity_dead;
+            $sales->type_price = $request->type_price;
+            $sales->pound_weight = $request->pound_weight;
+            $sales->price_service = Services::find($request->services)->price;
 
             if($sales->save()){
                 Session::flash('message', 'Venta creada correctamente!!');
@@ -133,13 +136,16 @@ class SalesController extends Controller
             $sales->quantity = $request->quantity;
             $sales->price_unity = $request->price_unity;
             $sales->price_total = $request->quantity * $request->price_unity;
-            $sales->date_credit =date('Y-m-d', strtotime($request->date_credit));
+            $sales->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $sales->status_payment = 0;
             $sales->service =$request->services;
             $sales->status = $request->status;
             $sales->price_buy_zoo = $request->price_buy_zoo;
             $sales->merma_weight = $request->merma_weight;
             $sales->quantity_dead = $request->quantity_dead;
+            $sales->type_price = $request->type_price;
+            $sales->pound_weight = $request->pound_weight;
+            $sales->price_service = Services::find($request->services)->price;
 
             if($sales->save()){
                 Session::flash('message', 'Venta modificada correctamente!!');
@@ -169,6 +175,7 @@ class SalesController extends Controller
     {
         $sales = Sales::find($request->id);
         $sales->status_payment = $request->status;
+        $sales->status = 'cerrada';
         $sales->date_payment = date('Y-m-d');
 
         if($sales->save()){

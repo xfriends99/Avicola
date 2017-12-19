@@ -19,8 +19,16 @@
       </form>
                 <div class="panel-body">
                     @if (Session::has('message'))
-                    <div class="alert alert-info">{{ Session::get('message') }}</div>
+                    <div class="alert alert-info">{{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                    </div>
                     @endif
+                    <div class="alert alert-info alertjavascript" style="display: none;"><span class="message"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                    </div>
+
 
                     <table class="table table-hover">
                         <thead>
@@ -71,6 +79,7 @@
                 }
             });
         $('.status').click(function(){
+            if(confirm("¿Al marcar la compra como pagada se vera reflejado en sus cuentas por pagar?")){
                  thiss = $(this);
                 $.ajax({
                     headers: {
@@ -80,8 +89,13 @@
                     method:'POST',
                     data:{id:thiss.attr('data-id'), status: 1},
                     // data:{id:thiss.attr('data-id'), status: ($(this).is(':checked'))?'1':'0'},
-                    success: function(data){   
-                        location.reload();  
+                    success: function(data){ 
+                        // location.reload();  
+                        $('.alertjavascript').show();
+                        $('.message').html('Compra marcada como pagada satisfactoriamente');
+                        thiss.hide();
+
+                    // window.location.href="/buy";  
                         (thiss.is(':checked'))?thiss.prop('true'):thiss.prop('false');
                     },
                     error:function(error){
@@ -89,7 +103,7 @@
                       // alert("ERROR, ACTUALICE LA PAGINA");
                     }
                   });
-            // }
+            }
         });
         });
 </script>

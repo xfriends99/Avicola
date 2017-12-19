@@ -19,7 +19,10 @@
       </form>
                 <div class="panel-body">
                     @if (Session::has('message'))
-                    <div class="alert alert-info">{{ Session::get('message') }}</div>
+                    <div class="alert alert-info">{{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                    </div>
                     @endif
 
                     <table class="table table-hover">
