@@ -17,7 +17,7 @@
               </span>
         </div>
       </form>
-                <div class="panel-body">
+                <div class="panel-body table-responsive">
                     @if (Session::has('message'))
                     <div class="alert alert-info">{{ Session::get('message') }}
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -52,7 +52,7 @@
                                 <td>{{ $d->quantity }}</td>
                                 <td><?php echo number_format($d->price_total, 2, ',', '.') ?></td>
                                 <td>{{ date('d-m-Y', strtotime($d->created_at))}}</td>
-                                <td>{{ date('d-m-Y', strtotime($d->date_credit))}}</td>
+                                <td>@if($d->date_credit){{ date('d-m-Y', strtotime($d->date_credit))}}@endif</td>
                                 <td><a  class="btn btn-success status" data-id="{{$d->id}}"  @if($d->status_pay==1) style="display:none;" @endif >Pagada</a>
 
                                     <!-- <input type="checkbox" name="status" class="status" data-id="{{$d->id}}" @if($d->status_pay==1) checked @endif></td> -->

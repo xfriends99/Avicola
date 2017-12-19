@@ -9,7 +9,7 @@
                     <a href= "/adduser"  style="margin-top:-7px; float:right;" class="btn btn-success" >Nuevo Usuario</a>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body table-responsive">
                     @if (Session::has('message'))
                     <div class="alert alert-info">{{ Session::get('message') }}
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

@@ -17,7 +17,7 @@
                           </span>
                     </div>
                 </form>
-                <div class="panel-body">
+                <div class="panel-body table-responsive">
                     @if (Session::has('message'))
                     <div class="alert alert-info">{{ Session::get('message') }}
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -49,15 +49,15 @@
                                 <td>{{ $d->quantity }}</td>
                                 <td><?php echo number_format($d->price_total, 2, ',', '.') ?></td>
                                 <td>{{ date('d-m-Y', strtotime($d->created_at))}}</td>
-                                <td>{{ date('d-m-Y', strtotime($d->date_credit))}}</td>
+                                <td>@if($d->date_credit){{ date('d-m-Y', strtotime($d->date_credit))}}@endif</td>
                                 <td>@if($d->status == 'falta de pago') <a class="btn btn-success status" data-id="{{$d->id}}"  @if($d->status_payment==1) style="display:none;" @endif >Pagada</a> @endif
                                     <!-- <input type="checkbox" name="status" class="status" data-id="{{$d->id}}" @if($d->status_payment==1) checked @endif> -->
                                 </td>
                                 <td>
-                                    @if($d->type_product== 'pollo en pie')  <a class="btn btn-info merma" id-sale="{{ $d->id  }}" >Merma</a>&nbsp;&nbsp; @endif
-                                    @if($d->type_product== 'pollo en pie')<a class="btn btn-info dead" id-sale="{{ $d->id  }}" >Cargar pollos muertos</a>&nbsp;&nbsp; @endif
+                                    @if($d->type_product== 'pollo en pie')  <a class="btn btn-warning merma" id-sale="{{ $d->id  }}" >Merma</a>&nbsp;&nbsp; @endif
+                                    @if($d->type_product== 'pollo en pie')<a class="btn btn-warning dead" id-sale="{{ $d->id  }}" >Cargar pollos muertos</a>&nbsp;&nbsp; @endif
                                     @if($d->status != 'falta de pago')<a href= "{{url('sales/'.$d->id)}}" class="btn btn-info editar" >Editar</a>&nbsp;&nbsp; @endif
-                                    <a data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a> 
+                                    @if($d->status != 'falta de pago')<a data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a>  @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -88,7 +88,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-warning save-merma">Guardar</button>
+                <button type="button" class="btn btn-info save-merma">Guardar</button>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-warning save-dead">Guardar</button>
+                <button type="button" class="btn btn-info save-dead">Guardar</button>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@
             });
         $('.status').click(function(){
                  thiss = $(this);
-            if(confirm("¿Al marcar la venta como pagada se vera reflejado en sus cuentas por pagar?")){
+            if(confirm("¿Al marcar la venta como pagada se vera reflejado en sus cuentas por cobrar?")){
   
                 $.ajax({
                     headers: {
