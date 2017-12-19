@@ -32,7 +32,7 @@ class SalesController extends Controller
     {
         $dataService = Services::all();
         $data = Sales::paginate(15);
-        return view('Sales.addsales')->with('data',$data->last())->with('services', $dataService);
+        return view('sales.addsales')->with('data',$data->last())->with('services', $dataService);
     }
 
     /**

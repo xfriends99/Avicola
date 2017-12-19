@@ -19,7 +19,7 @@ class BuyController extends Controller
     public function index()
     {
         $data = Buy::paginate(15);
-        return view('Buy.list_all')->with('data',$data);
+        return view('buy.list_all')->with('data',$data);
     }
 
     /**
@@ -30,7 +30,7 @@ class BuyController extends Controller
     public function getAddBuy()
     {
         $data = Buy::paginate(15);
-        return view('Buy.addbuy')->with('data',$data->last());
+        return view('buy.addbuy')->with('data',$data->last());
     }
 
     /**
@@ -91,7 +91,7 @@ class BuyController extends Controller
     public function getEditBuy($id)
     {
         $data = Buy::find($id);
-        return view('Buy.editbuy')->with('data',$data);
+        return view('buy.editbuy')->with('data',$data);
     }
 
     /**
