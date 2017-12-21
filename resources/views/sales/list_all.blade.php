@@ -56,8 +56,8 @@
                                 <td>
                                     @if($d->type_product== 'pollo en pie')  <a class="btn btn-info merma" id-sale="{{ $d->id  }}" >Merma</a>&nbsp;&nbsp; @endif
                                     @if($d->type_product== 'pollo en pie')<a class="btn btn-info dead" id-sale="{{ $d->id  }}" >Cargar pollos muertos</a>&nbsp;&nbsp; @endif
-                                    @if($d->status != 'falta de pago')<a href= "{{url('sales/'.$d->id)}}" class="btn btn-info editar" >Editar</a>&nbsp;&nbsp; @endif
-                                    <a data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a> 
+                                    @if($d->status != 'falta de pago')<!--<a href= "{{url('sales/'.$d->id)}}" class="btn btn-info editar" >Editar</a>&nbsp;&nbsp; -->@endif
+                                    <!--<a data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a>-->
                                 </td>
                             </tr>
                             @endforeach

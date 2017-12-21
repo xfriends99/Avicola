@@ -22,6 +22,20 @@ Route::get('/adduser', 'UserController@getAddUser');
 Route::post('/adduser', 'UserController@postAddUser');
 Route::get('/deleteUser/{id}', 'UserController@deleteUser');
 
+/* ABM Clientes */
+Route::get('/clients', 'ClientController@listClients');
+Route::post('/editClient', 'ClientController@postEditClient');
+Route::get('/addclient', 'ClientController@getAddClient');
+Route::post('/addclient', 'ClientController@postAddClient');
+Route::get('/deleteClient/{id}', 'ClientController@deleteClient');
+
+/* ABM Proveedores */
+Route::get('/providers', 'ProviderController@listProviders');
+Route::post('/editProvider', 'ProviderController@postEditProvider');
+Route::get('/addprovider', 'ProviderController@getAddProvider');
+Route::post('/addprovider', 'ProviderController@postAddProvider');
+Route::get('/deleteProvider/{id}', 'ProviderController@deleteProvider');
+
 /* ABM Servicios */
 Route::get('/services', 'ServicesController@index');
 Route::get('/service/{id}', 'ServicesController@getEditService');

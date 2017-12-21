@@ -159,10 +159,12 @@ label.error {
 
             @if (!Auth::guest())
 
-                    <li class="{{ (Request::is('users*') || Request::is('adduser*') || Request::is('editUser*') || Request::is('deleteUser*') || Request::is('profile*')) ? 'active open' : ''  }}"><a href="{{ url('/users') }}"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
-                     <li class=""><a href="{{ url('/services') }}"><i class="fa fa-link"></i> <span>Servicios</span></a></li>
-                     <li class=""><a href="{{ url('/buy') }}"><i class="fa fa-link"></i> <span>Compras</span></a></li>
-                     <li class=""><a href="{{ url('/sales') }}"><i class="fa fa-link"></i> <span>Ventas</span></a></li>
+                    <li class="{{ (Request::is('users*') || Request::is('adduser*') || Request::is('editUser*') || Request::is('deleteUser*')) ? 'active open' : ''  }}"><a href="{{ url('/users') }}"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
+                    <!--<li class="{{ (Request::is('clients*') || Request::is('addClient*') || Request::is('editClient*') || Request::is('deleteClient*')) ? 'active open' : ''  }}"><a href="{{ url('/clients') }}"><i class="fa fa-link"></i> <span>Clientes</span></a></li>
+                    <li class="{{ (Request::is('providers*') || Request::is('addProvider*') || Request::is('editProvider*') || Request::is('deleteProvider*')) ? 'active open' : ''  }}"><a href="{{ url('/providers') }}"><i class="fa fa-link"></i> <span>Proveedores</span></a></li>
+                    --><li class=""><a href="{{ url('/services') }}"><i class="fa fa-link"></i> <span>Servicios</span></a></li>
+                    <li class=""><a href="{{ url('/buy') }}"><i class="fa fa-link"></i> <span>Compras</span></a></li>
+                    <li class=""><a href="{{ url('/sales') }}"><i class="fa fa-link"></i> <span>Ventas</span></a></li>
 
                 @endif
                 <!--

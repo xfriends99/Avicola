@@ -56,8 +56,8 @@
                                 <td><a  class="btn btn-success status" data-id="{{$d->id}}"  @if($d->status_pay==1) style="display:none;" @endif >Pagada</a>
 
                                     <!-- <input type="checkbox" name="status" class="status" data-id="{{$d->id}}" @if($d->status_pay==1) checked @endif></td> -->
-                                <td><a href= "{{url('buy/'.$d->id)}}" class="btn btn-info" >Editar</a>&nbsp;&nbsp;
-                                <a  data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a> </td>
+                                <td><!--<a href= "{{url('buy/'.$d->id)}}" class="btn btn-info" >Editar</a>&nbsp;&nbsp;
+                                <a  data-id="{{$d->id}}"  class="btn btn-danger delete" >Eliminar</a> --></td>
                             </tr>
                             @endforeach
                         </tbody>
