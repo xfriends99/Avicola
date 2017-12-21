@@ -58,14 +58,19 @@ class SalesController extends Controller
             ->withErrors($validator)
             ->withInput();
         } else {
+            // return ($request->services)?Services::find($request->services)->price:'';
+            if($request->type_product == 'pollo en pie' && $request->type_price == 'peso'){
+                $price_total = $request->quantity * $request->pound_weight;
+            }else{
+                $price_total = $request->quantity * $request->price_unity;
+            }
 
             $sales = new Sales;
-
             $sales->code = $request->code;
             $sales->type_product = $request->type_product;
             $sales->quantity = $request->quantity;
             $sales->price_unity = $request->price_unity;
-            $sales->price_total = $request->quantity * $request->price_unity;
+            $sales->price_total = $price_total;
             $sales->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $sales->status_payment = 0;
             $sales->service =$request->services;
@@ -75,7 +80,7 @@ class SalesController extends Controller
             $sales->quantity_dead = $request->quantity_dead;
             $sales->type_price = $request->type_price;
             $sales->pound_weight = $request->pound_weight;
-            $sales->price_service = Services::find($request->services)->price;
+            $sales->price_service =  ($request->services)?Services::find($request->services)->price:NULL;
 
             if($sales->save()){
                 Session::flash('message', 'Venta creada correctamente!!');
@@ -129,13 +134,17 @@ class SalesController extends Controller
             ->withInput();
         } else {
         	// return $request->id;
+            if($request->type_product == 'pollo en pie' && $request->type_price == 'peso'){
+                $price_total = $request->quantity * $request->pound_weight;
+            }else{
+                $price_total = $request->quantity * $request->price_unity;
+            }
             $sales = Sales::find($request->id);
-
             $sales->code = $request->code;
             $sales->type_product = $request->type_product;
             $sales->quantity = $request->quantity;
             $sales->price_unity = $request->price_unity;
-            $sales->price_total = $request->quantity * $request->price_unity;
+            $sales->price_total = $price_total;
             $sales->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $sales->status_payment = 0;
             $sales->service =$request->services;
@@ -145,7 +154,7 @@ class SalesController extends Controller
             $sales->quantity_dead = $request->quantity_dead;
             $sales->type_price = $request->type_price;
             $sales->pound_weight = $request->pound_weight;
-            $sales->price_service = Services::find($request->services)->price;
+            $sales->price_service =  ($request->services)?Services::find($request->services)->price:NULL;
 
             if($sales->save()){
                 Session::flash('message', 'Venta modificada correctamente!!');
