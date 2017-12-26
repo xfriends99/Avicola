@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Buy;
+use App\Product;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Session;
+use App\Provider;
 
 class BuyController extends Controller
 {
@@ -29,8 +31,11 @@ class BuyController extends Controller
      */
     public function getAddBuy()
     {
+        $providers = Provider::all();
+        $products = Product::all();
         $data = Buy::paginate(15);
-        return view('buy.addbuy')->with('data',$data->last());
+        return view('buy.addbuy',['data' => $data->last(),
+            'providers' => $providers, 'products' => $products]);
     }
 
     /**
@@ -44,9 +49,8 @@ class BuyController extends Controller
         $rules = array(
             'quantity' => 'required|max:255',
             'code' => 'required|max:255',
-            'price_unity' => 'required|max:255',
             'quantity_weight' => 'required|max:255',
-            'type_product' => 'required|max:255',
+            'type_product' => 'required',
             );
 
         $validator = Validator::make($request->all(), $rules);
@@ -57,15 +61,15 @@ class BuyController extends Controller
             ->withErrors($validator)
             ->withInput();
         } else {
-        	// return  date('Y-m-d', strtotime($request->date_credit));
+            $product = Product::find($request->type_product);
             $buy = new Buy;
             $buy->code = $request->code;
-            $buy->type_product = $request->type_product;
-            $buy->type_price = $request->type_price;
+            $buy->type_product = $product->id;
+            $buy->type_price = $product->type_calculation;
             $buy->quantity = $request->quantity;
             $buy->quantity_weight = $request->quantity_weight;
-            $buy->price_unity = $request->price_unity;
-            $buy->price_total = $request->quantity * $request->price_unity;
+            $buy->price_unity = $product->price;
+            $buy->price_total = ($product->type_calculation=='unidad') ? $request->quantity * $product->price : $request->quantity_weight * $product->price;
             $buy->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $buy->status_pay = 0;
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Provider;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -30,56 +31,47 @@ class ProviderController extends Controller
     public function listProviders()
     {
 
-        $users = \App\User::where('is_active','=','1')
-            ->get();
+        $providers = Provider::all();
 
-        return view('users.list')->with('users',$users);
+        return view('providers.list')->with('providers',$providers);
 
     }
 
     public function getAddProvider()
     {
 
-
-        $roles = \App\Role::all();
-
-        return view('users.add')
-            ->with('roles',$roles);
+        return view('providers.add');
 
     }
 
     public function postAddProvider(){
         $rules = array(
+            'cedula_ruc' => 'required|max:20|unique:providers',
             'name' => 'required|max:255',
-            'surname' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:8',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:100|unique:providers',
+            'direction' => 'required',
         );
 
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::to('adduser')
+            return Redirect::to('addprovider')
                 ->withErrors($validator)
                 ->withInput();
         } else {
 
-            $user = new \App\User;
+            $provider = new Provider();
 
-            $user->name = Input::get('name');
-            $user->surname = Input::get('surname');
-            $user->email = Input::get('email');
-            $user->password = bcrypt(Input::get('password'));
-            $user->roles_id = Input::get('roles_id');
-            if (Input::hasFile('logo')){
-                $imageName = Input::file('logo')->getClientOriginalName();
-                Input::file('logo')->move('logos', $imageName);
-                $user->logo = $imageName;
-            }
+            $provider->name = Input::get('name');
+            $provider->cedula_ruc = Input::get('cedula_ruc');
+            $provider->email = Input::get('email');
+            $provider->phone = Input::get('phone');
+            $provider->direction = Input::get('direction');
 
-            if($user->save()){
-                Session::flash('message', 'Usuario creado correctamente!!');
-                return Redirect::to('users');
+            if($provider->save()){
+                Session::flash('message', 'Proveedor creado correctamente!!');
+                return Redirect::to('providers');
             }
 
         }
@@ -87,63 +79,46 @@ class ProviderController extends Controller
 
     public function getEditProvider($id = null){
 
-        $user = \App\User::find($id);
+        $provider = Provider::find($id);
 
-        if($user!=null){
-
-            if(Auth::user()->roles_id == 1){
-
-                $roles = \App\Role::all();
-
-                return view('users.edit')
-                    ->with('roles',$roles)
-                    ->with('user',$user);
-            }else{
-                return view('home');
-            }
+        if($provider!=null){
+            return view('providers.edit', compact('provider'));
         }else{
             return view('home');
         }
 
     }
 
-
     public function postEditProvider(){
 
-        $id = Input::get('user_id');
+        $id = Input::get('provider_id');
 
         $rules = array(
+            'cedula_ruc' => 'required|max:20',
             'name' => 'required|max:255',
-            'surname' => 'required|max:255',
-            'email' => 'required|email|max:255',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:100',
+            'direction' => 'required',
         );
 
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::to('profile/'.$id)
+            return Redirect::to('providers')
                 ->withErrors($validator);
         } else {
 
-            $user = \App\User::find($id);
+            $provider = Provider::find($id);
 
-            $user->name = Input::get('name');
-            $user->surname = Input::get('surname');
-            $user->email = Input::get('email');
-            $password = Input::get('password');
-            $user->roles_id = Input::get('roles_id');
-            if(!empty($password)){
-                $user->password = bcrypt($password);
-            }
-            if (Input::hasFile('logo')){
-                $imageName = Input::file('logo')->getClientOriginalName();
-                Input::file('logo')->move('logos', $imageName);
-                $user->logo = $imageName;
-            }
+            $provider->name = Input::get('name');
+            $provider->cedula_ruc = Input::get('cedula_ruc');
+            $provider->email = Input::get('email');
+            $provider->phone = Input::get('phone');
+            $provider->direction = Input::get('direction');
 
-            if($user->save()){
-                Session::flash('message', 'Usuario actualizado correctamente!');
-                return Redirect::to('profile/'.$id);
+            if($provider->save()){
+                Session::flash('message', 'Proveedor actualizado correctamente!');
+                return Redirect::to('providers');
             }
 
 
@@ -152,26 +127,15 @@ class ProviderController extends Controller
     }
 
 
-    public function deleteProvider($id = null){
+    public function deleteClient($id = null){
 
-        $user = \App\User::find($id);
-
-        if($user!=null){
-
-            if(Auth::user()->roles_id==1){
-                $user->is_active = 0;
-                if($user->save()) {
-                    Session::flash('message', 'Usuario eliminado correctamente!');
-                    return Redirect::to('users');
-                }
-            }else{
-                return view('home');
-            }
-
+        $provider = Provider::find($id);
+        if($provider->save()) {
+            Session::flash('message', 'Proveedor eliminado correctamente!');
+            return Redirect::to('providers');
         }else{
             return view('home');
         }
 
     }
-
 }

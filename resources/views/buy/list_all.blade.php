@@ -48,7 +48,7 @@
                             @foreach($data as $d)                     
                             <tr>
                                 <td>{{ $d->code  }}</td>
-                                <td>{{ $d->type_product  }}</td>
+                                <td> @if($d->product) {{$d->product->name}} @else {{''}} @endif </td>
                                 <td>{{ $d->quantity }}</td>
                                 <td><?php echo number_format($d->price_total, 2, ',', '.') ?></td>
                                 <td>{{ date('d-m-Y', strtotime($d->created_at))}}</td>

@@ -6,9 +6,9 @@
     <div class="row">
         <div class="col-md-10">
             <div class="panel panel-default">
-                <div class="panel-heading">Nuevo Servicio</div>
+                <div class="panel-heading">Nuevo Producto</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="{{ url('/editService') }}" id="Form">
+                    <form class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="{{ url('/editProduct') }}" id="Form">
                         {{ csrf_field() }}
                       
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label">Precio</label>
+                            <label for="name" class="col-md-4 control-label">Precio de compra</label>
 
                             <div class="col-md-6">
                                 <input  type="text" class="form-control price" required name="price" value="{{$data->price}}" >
@@ -53,17 +53,31 @@
                             </div>
                         </div>
 
-                        
+                        <div class="form-group">
+                            <label for="name" class="col-md-4 control-label">Precio de venta</label>
+
+                            <div class="col-md-6">
+                                <input  type="text" class="form-control price" value="{{$data->price_sales}}" required name="price_sales" >
+
+                                @if ($errors->has('price_sales'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('price_sales') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group{{ $errors->has('type_calculation') ? ' has-error' : '' }}">
                             <label for="roles_id" class="col-md-4 control-label">Tipo de calculo</label>
 
                             <div class="col-md-6">
                                 <select id="roles_id"  class="form-control" name="type_calculation" required>
-                                            <option value="">Seleccione</option>
-                                            
-                                            <option value="peso" @if($data->type_calculation =='peso') selected @endif>Peso</option>
-                                            <option value="unidad" @if($data->type_calculation =='unidad') selected @endif>Unidad</option>
-                                            
+                                    <option value="">Seleccione</option>
+
+                                    <option value="peso" @if($data->type_calculation =='peso') selected @endif>Peso</option>
+                                    <option value="unidad" @if($data->type_calculation =='unidad') selected @endif>Unidad</option>
+
                                 </select>
 
                                 @if ($errors->has('type_calculation'))
@@ -73,9 +87,6 @@
                                 @endif
                             </div>
                         </div>
-
-    
-
 
 
                         <div class="form-group">

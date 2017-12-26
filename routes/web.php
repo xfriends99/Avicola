@@ -24,6 +24,7 @@ Route::get('/deleteUser/{id}', 'UserController@deleteUser');
 
 /* ABM Clientes */
 Route::get('/clients', 'ClientController@listClients');
+Route::get('/editClient/{id}', 'ClientController@getEditClient');
 Route::post('/editClient', 'ClientController@postEditClient');
 Route::get('/addclient', 'ClientController@getAddClient');
 Route::post('/addclient', 'ClientController@postAddClient');
@@ -31,10 +32,20 @@ Route::get('/deleteClient/{id}', 'ClientController@deleteClient');
 
 /* ABM Proveedores */
 Route::get('/providers', 'ProviderController@listProviders');
+Route::get('/editProvider/{id}', 'ProviderController@getEditProvider');
 Route::post('/editProvider', 'ProviderController@postEditProvider');
 Route::get('/addprovider', 'ProviderController@getAddProvider');
 Route::post('/addprovider', 'ProviderController@postAddProvider');
 Route::get('/deleteProvider/{id}', 'ProviderController@deleteProvider');
+
+/* ABM Productos */
+Route::get('/products', 'ProductController@index');
+Route::get('/product/{id}', 'ProductController@getEditProduct');
+Route::post('/editProduct', 'ProductController@postUpdateProduct');
+Route::get('/addproduct', 'ProductController@getAddProduct');
+Route::post('/addproduct', 'ProductController@postAddProduct');
+Route::get('/deleteProduct/{id}', 'ProductController@deleteProduct');
+Route::get('/products/search', 'ProductController@searchProduct');
 
 /* ABM Servicios */
 Route::get('/services', 'ServicesController@index');

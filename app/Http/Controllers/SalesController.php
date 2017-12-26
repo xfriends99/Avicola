@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Session;
+use App\Client;
+use App\Product;
 
 class SalesController extends Controller
 {
@@ -30,9 +32,11 @@ class SalesController extends Controller
      */
     public function getAddSales()
     {
+        $products = Product::all();
         $dataService = Services::all();
         $data = Sales::paginate(15);
-        return view('sales.addsales')->with('data',$data->last())->with('services', $dataService);
+        return view('sales.addsales',['data'=>$data->last(),'services' => $dataService,
+            'products' => $products]);
     }
 
     /**
@@ -46,7 +50,6 @@ class SalesController extends Controller
         $rules = array(
             'quantity' => 'required|max:255',
             'code' => 'required|max:255',
-            'price_unity' => 'required|max:255',
             'type_product' => 'required|max:255',
             );
 
@@ -58,19 +61,13 @@ class SalesController extends Controller
             ->withErrors($validator)
             ->withInput();
         } else {
-            // return ($request->services)?Services::find($request->services)->price:'';
-            if($request->type_product == 'pollo en pie' && $request->type_price == 'peso'){
-                $price_total = $request->quantity * $request->pound_weight;
-            }else{
-                $price_total = $request->quantity * $request->price_unity;
-            }
-
+            $product = Product::find($request->type_product);
             $sales = new Sales;
             $sales->code = $request->code;
-            $sales->type_product = $request->type_product;
+            $sales->type_product = $product->id;
             $sales->quantity = $request->quantity;
-            $sales->price_unity = $request->price_unity;
-            $sales->price_total = $price_total;
+            $sales->price_unity = $product->price_sales;
+            $sales->price_total = ($product->type_calculation=='unidad') ? $request->quantity * $product->price : $request->quantity_weight * $product->price;
             $sales->date_credit =($request->date_credit)?date('Y-m-d', strtotime($request->date_credit)):$request->date_credit;
             $sales->status_payment = 0;
             $sales->service =$request->services;
@@ -78,7 +75,7 @@ class SalesController extends Controller
             $sales->price_buy_zoo = $request->price_buy_zoo;
             $sales->merma_weight = $request->merma_weight;
             $sales->quantity_dead = $request->quantity_dead;
-            $sales->type_price = $request->type_price;
+            $sales->type_price = $product->type_calculation;
             $sales->pound_weight = $request->pound_weight;
             $sales->price_service =  ($request->services)?Services::find($request->services)->price:NULL;
 

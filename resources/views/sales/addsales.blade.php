@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-10">
             <div class="panel panel-default">
-                <div class="panel-heading">Nuevo Compra</div>
+                <div class="panel-heading">Nueva Compra</div>
                 <div class="panel-body">
                     <form class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="{{ url('/addsales') }}" id="Form">
                         {{ csrf_field() }}
@@ -30,10 +30,9 @@
                             <div class="col-md-6">
                                 <select   class="form-control type_product" name="type_product"  required>
                                             <option value="">Seleccione</option>
-                                            
-                                            <option value="pollo en pie">Pollo en pie</option>
-                                            <option value="gallina roja">Gallina roja</option>
-                                            <option value="gallina moles">Gallina moles</option>
+                                    @foreach($products as $product)
+                                        <option value="{{$product->id}}">{{$product->name}}</option>
+                                    @endforeach
                                             
                                 </select>
 
@@ -45,16 +44,15 @@
                             </div>
                         </div>
 
-                        <div style="display: none" class="hide_chiken_pie">
                             <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Peso por libra</label>
+                                <label for="name" class="col-md-4 control-label">Peso</label>
 
                                 <div class="col-md-6">
                                     <input  type="text" class="form-control" required name="pound_weight"   >
 
                                 </div>
                             </div>
-
+                        <div style="display: none">
                          <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Tipo de precio </label>
 
@@ -86,21 +84,6 @@
                             </div>
                         </div>
 
-       
-
-                        <div class="form-group">
-                            <label for="name" class="col-md-4 control-label">Precio</label>
-
-                            <div class="col-md-6">
-                                <input  type="text" class="form-control price" required name="price_unity" placeholder="Precio por unidad"  >
-
-                                @if ($errors->has('price_unity'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('price_unity') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Servicio </label>
 
@@ -274,13 +257,13 @@ $('#date_credit').datepicker({
     });
 
    // $(".price").inputmask('decimal', { digits: 2});
-    $(".type_product").change(function(){
+   /* $(".type_product").change(function(){
         if($(this).val()=="pollo en pie"){
             $('.hide_chiken_pie').show();
         }else{
             $('.hide_chiken_pie').hide();
         }
-    });
+    });*/
 });
 </script>
 @endsection

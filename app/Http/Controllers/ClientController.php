@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -30,56 +31,47 @@ class ClientController extends Controller
     public function listClients()
     {
 
-        $users = \App\User::where('is_active','=','1')
-            ->get();
+        $clients = Client::all();
 
-        return view('users.list')->with('users',$users);
+        return view('clients.list')->with('clients',$clients);
 
     }
 
     public function getAddClient()
     {
 
-
-        $roles = \App\Role::all();
-
-        return view('users.add')
-            ->with('roles',$roles);
+        return view('clients.add');
 
     }
 
     public function postAddClient(){
         $rules = array(
+            'cedula_ruc' => 'required|max:20|unique:clients',
             'name' => 'required|max:255',
-            'surname' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:8',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:100|unique:clients',
+            'direction' => 'required',
         );
 
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::to('adduser')
+            return Redirect::to('addclient')
                 ->withErrors($validator)
                 ->withInput();
         } else {
 
-            $user = new \App\User;
+            $client = new Client();
 
-            $user->name = Input::get('name');
-            $user->surname = Input::get('surname');
-            $user->email = Input::get('email');
-            $user->password = bcrypt(Input::get('password'));
-            $user->roles_id = Input::get('roles_id');
-            if (Input::hasFile('logo')){
-                $imageName = Input::file('logo')->getClientOriginalName();
-                Input::file('logo')->move('logos', $imageName);
-                $user->logo = $imageName;
-            }
+            $client->name = Input::get('name');
+            $client->cedula_ruc = Input::get('cedula_ruc');
+            $client->email = Input::get('email');
+            $client->phone = Input::get('phone');
+            $client->direction = Input::get('direction');
 
-            if($user->save()){
-                Session::flash('message', 'Usuario creado correctamente!!');
-                return Redirect::to('users');
+            if($client->save()){
+                Session::flash('message', 'Cliente creado correctamente!!');
+                return Redirect::to('clients');
             }
 
         }
@@ -87,63 +79,46 @@ class ClientController extends Controller
 
     public function getEditClient($id = null){
 
-        $user = \App\User::find($id);
+        $client = Client::find($id);
 
-        if($user!=null){
-
-            if(Auth::user()->roles_id == 1){
-
-                $roles = \App\Role::all();
-
-                return view('users.edit')
-                    ->with('roles',$roles)
-                    ->with('user',$user);
-            }else{
-                return view('home');
-            }
+        if($client!=null){
+            return view('clients.edit', compact('client'));
         }else{
             return view('home');
         }
 
     }
 
-
     public function postEditClient(){
 
-        $id = Input::get('user_id');
+        $id = Input::get('client_id');
 
         $rules = array(
+            'cedula_ruc' => 'required|max:20',
             'name' => 'required|max:255',
-            'surname' => 'required|max:255',
-            'email' => 'required|email|max:255',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:100',
+            'direction' => 'required',
         );
 
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::to('profile/'.$id)
+            return Redirect::to('clients')
                 ->withErrors($validator);
         } else {
 
-            $user = \App\User::find($id);
+            $client = Client::find($id);
 
-            $user->name = Input::get('name');
-            $user->surname = Input::get('surname');
-            $user->email = Input::get('email');
-            $password = Input::get('password');
-            $user->roles_id = Input::get('roles_id');
-            if(!empty($password)){
-                $user->password = bcrypt($password);
-            }
-            if (Input::hasFile('logo')){
-                $imageName = Input::file('logo')->getClientOriginalName();
-                Input::file('logo')->move('logos', $imageName);
-                $user->logo = $imageName;
-            }
+            $client->name = Input::get('name');
+            $client->cedula_ruc = Input::get('cedula_ruc');
+            $client->email = Input::get('email');
+            $client->phone = Input::get('phone');
+            $client->direction = Input::get('direction');
 
-            if($user->save()){
-                Session::flash('message', 'Usuario actualizado correctamente!');
-                return Redirect::to('profile/'.$id);
+            if($client->save()){
+                Session::flash('message', 'Cliente actualizado correctamente!');
+                return Redirect::to('clients');
             }
 
 
@@ -154,20 +129,10 @@ class ClientController extends Controller
 
     public function deleteClient($id = null){
 
-        $user = \App\User::find($id);
-
-        if($user!=null){
-
-            if(Auth::user()->roles_id==1){
-                $user->is_active = 0;
-                if($user->save()) {
-                    Session::flash('message', 'Usuario eliminado correctamente!');
-                    return Redirect::to('users');
-                }
-            }else{
-                return view('home');
-            }
-
+        $client = Client::find($id);
+        if($client->save()) {
+            Session::flash('message', 'Cliente eliminado correctamente!');
+            return Redirect::to('clients');
         }else{
             return view('home');
         }

@@ -13,4 +13,9 @@ class Buy extends Model
 	protected $filltable = ['code', 'price','price_total','status_pay', 'type_product','quantity','quantity_weight','type_price','date_credit','date_pay'];
 
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+	public function product()
+    {
+        return $this->belongsTo(Product::class, 'type_product');
+    }
 }

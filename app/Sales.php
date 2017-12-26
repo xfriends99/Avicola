@@ -20,4 +20,9 @@ class Sales extends Model
     {
         return $this->hasOne('App\Services','service','id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'type_product');
+    }
 }

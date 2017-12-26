@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ITWarp Consulting</title>
+    <title>Avicola</title>
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -160,9 +160,10 @@ label.error {
             @if (!Auth::guest())
 
                     <li class="{{ (Request::is('users*') || Request::is('adduser*') || Request::is('editUser*') || Request::is('deleteUser*')) ? 'active open' : ''  }}"><a href="{{ url('/users') }}"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
-                    <!--<li class="{{ (Request::is('clients*') || Request::is('addClient*') || Request::is('editClient*') || Request::is('deleteClient*')) ? 'active open' : ''  }}"><a href="{{ url('/clients') }}"><i class="fa fa-link"></i> <span>Clientes</span></a></li>
+                    <li class="{{ (Request::is('products*') || Request::is('addproduct*') || Request::is('editProduct*') || Request::is('deleteProduct*')) ? 'active open' : ''  }}"><a href="{{ url('/products') }}"><i class="fa fa-link"></i> <span>Productos</span></a></li>
+                    <li class="{{ (Request::is('clients*') || Request::is('addClient*') || Request::is('editClient*') || Request::is('deleteClient*')) ? 'active open' : ''  }}"><a href="{{ url('/clients') }}"><i class="fa fa-link"></i> <span>Clientes</span></a></li>
                     <li class="{{ (Request::is('providers*') || Request::is('addProvider*') || Request::is('editProvider*') || Request::is('deleteProvider*')) ? 'active open' : ''  }}"><a href="{{ url('/providers') }}"><i class="fa fa-link"></i> <span>Proveedores</span></a></li>
-                    --><li class=""><a href="{{ url('/services') }}"><i class="fa fa-link"></i> <span>Servicios</span></a></li>
+                    <li class=""><a href="{{ url('/services') }}"><i class="fa fa-link"></i> <span>Servicios</span></a></li>
                     <li class=""><a href="{{ url('/buy') }}"><i class="fa fa-link"></i> <span>Compras</span></a></li>
                     <li class=""><a href="{{ url('/sales') }}"><i class="fa fa-link"></i> <span>Ventas</span></a></li>
 
